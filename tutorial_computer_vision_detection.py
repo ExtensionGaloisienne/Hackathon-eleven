@@ -5,6 +5,8 @@ from torchvision import transforms as T
 import matplotlib.pyplot as plt
 import cv2
 
+import os
+import random
 
 # %%
 # Loading the model and the dataset
@@ -133,19 +135,20 @@ def get_prediction(img_path, threshold):
 
 # %%
 def object_detection_api(
-    img_path, threshold=0.5, rect_th=3, text_size=3, text_th=3
+        img_path, threshold=0.5, rect_th=3, text_size=3, text_th=3
 ):
     boxes, pred_cls = get_prediction(img_path, threshold)  # Get predictions
     img = cv2.imread(img_path)  # Read image with cv2
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)  # Convert to RGB
     for i in range(len(boxes)):
         cv2.rectangle(
-            img, (int(boxes[i][0][0]),int(boxes[i][0][1])), (int(boxes[i][1][0]),int(boxes[i][1][1])), color=(0, 255, 0), thickness=rect_th
+            img, (int(boxes[i][0][0]), int(boxes[i][0][1])), (int(boxes[i][1][0]), int(boxes[i][1][1])),
+            color=(0, 255, 0), thickness=rect_th
         )  # Draw Rectangle with the coordinates
         cv2.putText(
             img,
             pred_cls[i],
-            (int(boxes[i][0][0]),int(boxes[i][0][1])),
+            (int(boxes[i][0][0]), int(boxes[i][0][1])),
             cv2.FONT_HERSHEY_SIMPLEX,
             text_size,
             (0, 255, 0),
@@ -158,10 +161,34 @@ def object_detection_api(
     plt.show()
 
 
+# GET A RANDOM IMAGE PATH IN FOLDER dir
+
+imgExtension = ["png", "jpeg", "jpg"]  # Image Extensions to be chosen from
+allImages = list()
+
+dir_path = "/Users/redabendjellountouimi/Git/Hackathon-eleven/data/Detection_Train_Set/Detection_Train_Set/Detection_Train_Set_Img"
+
+
+def choose_random_image(directory=dir_path):
+    for img in os.listdir(directory):  # Lists all files
+        ext = img.split(".")[len(img.split(".")) - 1]
+        if ext in imgExtension:
+            allImages.append(img)
+    choice = random.randint(0, len(allImages) - 1)
+    chosen_image = allImages[choice]  # Do Whatever you want with the image file
+    return chosen_image
+
+
+random_image = choose_random_image()
+random_image_path = dir_path + "/" + random_image
+print(random_image_path)
+
+# MAIN
+
 # %%
 # Try the detection model for the image of your choice
 # Example to help, if I have a folder named data with a jpeg format picture called test, the result would be:
-object_detection_api("data/test.jpg")
-
+test_img_path = random_image_path
+object_detection_api(test_img_path)
 
 # %%
