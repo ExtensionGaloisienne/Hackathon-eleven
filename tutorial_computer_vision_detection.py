@@ -171,8 +171,9 @@ def choose_random_image(directory):
         ext = img.split(".")[len(img.split(".")) - 1]
         if ext in imgExtension:
             allImages.append(img)
-    choice = random.randint(0, len(allImages) - 1)
-    chosen_image = allImages[choice]  # Do Whatever you want with the image file
+    # choice = random.randint(0, len(allImages) - 1)
+    # chosen_image = allImages[choice]  # Do Whatever you want with the image file
+    chosen_image = random.choice(allImages)
     random_image = directory + "/" + chosen_image
     # random_image = directory + "\\" + chosen_image
     print(random_image)
