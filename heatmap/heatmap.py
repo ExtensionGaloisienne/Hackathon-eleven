@@ -2,6 +2,7 @@
 
 import os
 import random
+import json
 
 
 #Choix d'un fichier aléatoire
@@ -17,6 +18,9 @@ def heatmap():
     directory = "C:\\Users\\Léonard\\Downloads\\data\\Detection_Test_Set\\Detection_Test_Set_Json"
     json_file = get_random_json_path(directory)
     print(json_file)
+    with open(json_file) as f:
+        json_data = json.load(f)
+    print(json_data)
     return 0
 
 heatmap()
