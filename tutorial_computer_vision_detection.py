@@ -174,6 +174,7 @@ def choose_random_image(directory):
     choice = random.randint(0, len(allImages) - 1)
     chosen_image = allImages[choice]  # Do Whatever you want with the image file
     random_image = directory + "/" + chosen_image
+    # random_image = directory + "\\" + chosen_image
     print(random_image)
     return random_image
 
@@ -185,6 +186,7 @@ def choose_random_image(directory):
 # Example to help, if I have a folder named data with a jpeg format picture called test, the result would be:
 
 dir_path = "/Users/redabendjellountouimi/Git/Hackathon-eleven/data/Detection_Train_Set/Detection_Train_Set/Detection_Train_Set_Img"
+# dir_path = "C:\\Users\\Léonard\\Downloads\\data\\Detection_Test_Set\\Detection_Test_Set_Img"
 test_img_path = choose_random_image(dir_path)
 object_detection_api(test_img_path)
 
