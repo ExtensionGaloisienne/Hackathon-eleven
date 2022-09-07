@@ -171,11 +171,9 @@ def choose_random_image(directory):
             all_images.append(img)
     # choice = random.randint(0, len(allImages) - 1)
     # chosen_image = allImages[choice]  # Do Whatever you want with the image file
-    chosen_image = random.choice(all_images)
-    random_image = directory + "/" + chosen_image
-    # random_image = directory + "\\" + chosen_image
+    random_image = random.choice(all_images)
     print(random_image)
-    return random_image
+    return os.path.join(directory, random_image)
 
 
 # MAIN
