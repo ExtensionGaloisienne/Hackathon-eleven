@@ -113,7 +113,7 @@ COCO_INSTANCE_CATEGORY_NAMES = [
 # %%
 def get_prediction(img_path, threshold):
     img = Image.open(img_path)  # Load the image
-    transform = T.Compose([T.ToTensor()])  # Defing PyTorch Transform
+    transform = T.Compose([T.ToTensor()])  # Defining PyTorch Transform
     img = transform(img)  # Apply the transform to the image
     pred = model([img])  # Pass the image to the model
     pred_class = [
@@ -184,6 +184,8 @@ def choose_random_image(directory):
 
 dir_path = "/Users/redabendjellountouimi/Git/Hackathon-eleven/data/Detection_Train_Set/Detection_Train_Set/Detection_Train_Set_Img"
 # dir_path = "C:\\Users\\Léonard\\Downloads\\data\\Detection_Test_Set\\Detection_Test_Set_Img"
+#dir_path = "C:\Users\dimit\hackathon\Hackathon-eleven\Datasets\Detection_Train_Set\Detection_Train_Set_Img"
+
 test_img_path = choose_random_image(dir_path)
 object_detection_api(test_img_path)
 
