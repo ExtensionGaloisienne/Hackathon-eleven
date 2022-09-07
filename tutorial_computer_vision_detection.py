@@ -113,7 +113,7 @@ COCO_INSTANCE_CATEGORY_NAMES = [
 # %%
 def get_prediction(img_path, threshold):
     img = Image.open(img_path)  # Load the image
-    transform = T.Compose([T.ToTensor()])  # Defing PyTorch Transform
+    transform = T.Compose([T.ToTensor()])  # Defining PyTorch Transform
     img = transform(img)  # Apply the transform to the image
     pred = model([img])  # Pass the image to the model
     pred_class = [
