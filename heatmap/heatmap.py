@@ -21,8 +21,20 @@ def get_all_json_paths(directory):
 
 def heatmap():
     random.seed()
-    directory = "C:\\Users\\Léonard\\Downloads\\data\\Detection_Test_Set\\Detection_Test_Set_Json"
+    directory = r'C:\Users\Léonard\Downloads\data\Detection_Train_Set\Detection_Train_Set_Json'
     json_files = get_all_json_paths(directory)
+    devisubox_files = [x for x in json_files if "Devisubox" in x]
+    marseille_files = [x for x in json_files if "Marseille" in x]
+    biosav_files = [x for x in json_files if "BioSAV" in x]
+    nouveaucampus_files = [x for x in json_files if "Nouveau" in x]
+    roissy_files = [x for x in json_files if "Roissy" in x]
+    print("Total: {}, BioSAV: {}, Devisubox: {}, Marseille: {}\
+, Nouveau Campus: {}, Roissy: {}".format(len(json_files),
+                                             len(biosav_files),
+                                             len(devisubox_files),
+                                             len(marseille_files),
+                                             len(nouveaucampus_files),
+                                             len(roissy_files)))
     json_data_list = []
     for json_file in json_files:
         with open(json_file) as f:

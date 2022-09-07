@@ -210,5 +210,3 @@ test_img_path = choose_random_image(dir_path)
 one_img_path = "/Users/redabendjellountouimi/Git/Hackathon-eleven/data/Detection_Train_Set/Detection_Train_Set/Detection_Train_Set_Img/Batch2__BioSAV_BIofiltration_18mois_05frame3099.jpg"
 print(test_img_path)
 object_detection_api(one_img_path)
-
-# %%
