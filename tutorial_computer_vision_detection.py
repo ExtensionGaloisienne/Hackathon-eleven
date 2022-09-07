@@ -162,18 +162,16 @@ def object_detection_api(
 
 
 # GET A RANDOM IMAGE PATH IN FOLDER dir
-
-imgExtension = ["png", "jpeg", "jpg"]  # Image Extensions to be chosen from
-allImages = list()
-
 def choose_random_image(directory):
+    img_extension = ["png", "jpeg", "jpg"]  # Image Extensions to be chosen from
+    all_images = list()
     for img in os.listdir(directory):  # Lists all files
         ext = img.split(".")[len(img.split(".")) - 1]
-        if ext in imgExtension:
-            allImages.append(img)
+        if ext in img_extension:
+            all_images.append(img)
     # choice = random.randint(0, len(allImages) - 1)
     # chosen_image = allImages[choice]  # Do Whatever you want with the image file
-    chosen_image = random.choice(allImages)
+    chosen_image = random.choice(all_images)
     random_image = directory + "/" + chosen_image
     # random_image = directory + "\\" + chosen_image
     print(random_image)
