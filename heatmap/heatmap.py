@@ -3,6 +3,9 @@
 import os
 import random
 import json
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 # Choix d'un fichier aléatoire
@@ -52,6 +55,24 @@ def heatmap():
                     data_by_chantier[i].append(json_data)
                 except json.JSONDecodeError:
                     print("Couldn't decode file {}".format(json_file))
+    return data_by_chantier
+
+
+def main():
+    data_by_chantier = heatmap()
+    objects_density = [0 for i in range(60)]
+    for chantier in data_by_chantier:
+        for picture_data in chantier:
+            # print(picture_data.keys())
+            objects_density[len(picture_data["objects"])] += 1
+    plt.figure()
+    plt.xlabel("N° of objects detected")
+    plt.ylabel("N° of pictures")
+    plt.title("Object detection density in data set")
+    plt.bar(np.arange(len(objects_density)), objects_density)
+    plt.show()
     return 0
 
-heatmap()
+
+if __name__ == "__main__":
+    main()
