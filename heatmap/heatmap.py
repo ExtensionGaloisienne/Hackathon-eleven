@@ -7,6 +7,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
+NAMES = ["BioSAV", "Devisubox", "Marseille", "Nouveau Campus", "Roissy"]
 
 # Choix d'un fichier aléatoire
 def choose_random_file(directory):
@@ -59,7 +60,6 @@ def heatmap():
 
 
 def display_objects_density(data_by_chantier):
-    names = ["BioSAV", "Devisubox", "Marseille", "Nouveau Campus", "Roissy"]
     objects_density = [[0 for i in range(60)] for i in range(5)]
     plt.figure(figsize=(10, 2))
     for i in range(5):
@@ -67,13 +67,40 @@ def display_objects_density(data_by_chantier):
             objects_density[i][len(picture_data["objects"])] += 1
         plt.subplot(1, 5, i + 1)
         plt.bar(np.arange(len(objects_density[i])), objects_density[i])
-        plt.grid(True)
-        plt.title(names[i])
+        plt.title(NAMES[i])
     plt.show()
+
+
+def display_people_density(people_by_chantier):
+    objects_density = [[0 for i in range(60)] for i in range(5)]
+    plt.figure(figsize=(10, 2))
+    for i in range(5):
+        for picture_data in people_by_chantier[i]:
+            objects_density[i][len(picture_data)] += 1
+        plt.subplot(1, 5, i + 1)
+        plt.bar(np.arange(len(objects_density[i])), objects_density[i])
+        plt.title(NAMES[i])
+    plt.show()
+
+
+def extract_people(picture_data):
+    people_boxes = []
+    for detected_obj in picture_data["objects"]:
+        if detected_obj["classTitle"] == "People":
+            people_boxes.append(detected_obj)
+    return people_boxes
+
 
 def main():
     data_by_chantier = heatmap()
-    display_objects_density(data_by_chantier)
+    # display_objects_density(data_by_chantier)
+    people_by_chantier = [[] for i in range(5)]
+    for i in range(5):
+        for picture_data in data_by_chantier[i]:
+            people_by_chantier[i].append(extract_people(picture_data))
+    display_people_density(people_by_chantier)
+
+
     return 0
 
 
