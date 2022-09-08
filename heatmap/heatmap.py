@@ -106,7 +106,7 @@ def get_boxes_from_people_list(people_list):
 def main():
     data_by_chantier = heatmap()
     # display_objects_density(data_by_chantier)
-    people_by_chantier = [[] for i in range(5)]
+    people_by_chantier = [[] for _ in range(5)]
     for i in range(5):
         for picture_data in data_by_chantier[i]:
             people_in_picture = extract_people(picture_data)
@@ -125,38 +125,6 @@ def main():
             plt.plot(centers[:, 0], centers[:, 1], 'bs')
         plt.show()
     return 0
-
-
-def area_rect(rect):
-    return np.abs((rect[0][0]-rect[0][1])*(rect[0][1]-rect[1][1]))
-
-
-def area_inter2(rect_pred, rect_json):
-    area_inter, area_union = 0, area_rect(rect_pred)+area_rect(rect_json)
-
-    x_pred, x_json = rect_pred[:][0], rect_json[:][0]
-    y_pred, y_json = rect_pred[:][1], rect_json[:][1]
-
-    if x_pred[1] > x_json[0]:
-        area_inter = (x_pred[1] - x_json[0])*(y_pred[1] - y_json[0])
-    if x_json[1] > x_pred[0]:
-        area_inter = (x_json[1] - x_pred[0])*(y_pred[0] - y_json[1])
-    if y_pred[1] > y_json[0]:
-        area_inter = (y_pred[1] - y_json[0])*(x_pred[1] - x_json[0])
-    if y_json[1] > y_pred[0]:
-        area_inter = (y_json[1] - y_pred[0])*(x_json[1] - x_pred[0])
-    return area_inter/(area_union - area_inter)
-
-def area_inter_n(rect_pred_list, rect_json_list):
-    area = 0
-    for rect_pred in rect_pred_list:
-        for rect_json in rect_json_list:
-            area += area_inter2(rect_pred, rect_json)
-    return area
-
-
-def area_union(rect_list):
-    return sum(area_rect(rect_list))
 
 
 if __name__ == "__main__":
