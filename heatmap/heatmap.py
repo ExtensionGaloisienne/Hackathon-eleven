@@ -96,7 +96,7 @@ def compute_center(a, b):
     return np.array([(a[0]+b[0]) // 2, (a[1]+b[1]) // 2])
 
 
-def compute_people_list(people_list):
+def get_boxes_from_people_list(people_list):
     return np.array([guy['points']['exterior'] for guy in people_list], dtype=np.int64)
 
 
@@ -113,14 +113,13 @@ def main():
     for i in range(5):
         plt.figure()
         plt.title(NAMES[i])
-        for picture_data in people_by_chantier[i]:
-            people_boxes = compute_people_list(picture_data)
-            box_count = len(people_boxes) + 1
+        for people_list in people_by_chantier[i]:
+            people_boxes = get_boxes_from_people_list(people_list)
+            box_count = len(people_boxes)
             centers = np.zeros((box_count, 2), dtype=np.int64)
-            for j in range(box_count - 1):
+            for j in range(box_count):
                 centers[j] = compute_center(people_boxes[j][0], people_boxes[j][1])
-            print(centers)
-            plt.scatter(centers[:][0], centers[:][1])
+            plt.plot(centers[:, 0], centers[:, 1], 'bs')
         plt.show()
     return 0
 
