@@ -9,6 +9,7 @@ import numpy as np
 
 NAMES = ["BioSAV", "Devisubox", "Marseille", "Nouveau Campus", "Roissy"]
 
+
 # Choix d'un fichier aléatoire
 def choose_random_file(directory):
     return random.choice(os.listdir(directory))
@@ -91,6 +92,14 @@ def extract_people(picture_data):
     return people_boxes
 
 
+def compute_center(a, b):
+    return abs(b[0]-a[0]), abs(b[1]-a[1])
+
+
+def compute_people_list(people_list):
+    return np.array([guy['points']['exterior'] for guy in people_list], dtype=np.int64)
+
+
 def main():
     data_by_chantier = heatmap()
     # display_objects_density(data_by_chantier)
@@ -98,8 +107,10 @@ def main():
     for i in range(5):
         for picture_data in data_by_chantier[i]:
             people_by_chantier[i].append(extract_people(picture_data))
-    display_people_density(people_by_chantier)
-
+    # display_people_density(people_by_chantier)
+    for chantier in people_by_chantier:
+        for picture_data in chantier:
+            print(compute_people_list(picture_data))
 
     return 0
 
