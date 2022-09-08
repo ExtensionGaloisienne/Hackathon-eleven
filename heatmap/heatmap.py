@@ -58,19 +58,22 @@ def heatmap():
     return data_by_chantier
 
 
+def display_objects_density(data_by_chantier):
+    names = ["BioSAV", "Devisubox", "Marseille", "Nouveau Campus", "Roissy"]
+    objects_density = [[0 for i in range(60)] for i in range(5)]
+    plt.figure(figsize=(10, 2))
+    for i in range(5):
+        for picture_data in data_by_chantier[i]:
+            objects_density[i][len(picture_data["objects"])] += 1
+        plt.subplot(1, 5, i + 1)
+        plt.bar(np.arange(len(objects_density[i])), objects_density[i])
+        plt.grid(True)
+        plt.title(names[i])
+    plt.show()
+
 def main():
     data_by_chantier = heatmap()
-    objects_density = [0 for i in range(60)]
-    for chantier in data_by_chantier:
-        for picture_data in chantier:
-            # print(picture_data.keys())
-            objects_density[len(picture_data["objects"])] += 1
-    plt.figure()
-    plt.xlabel("N° of objects detected")
-    plt.ylabel("N° of pictures")
-    plt.title("Object detection density in data set")
-    plt.bar(np.arange(len(objects_density)), objects_density)
-    plt.show()
+    display_objects_density(data_by_chantier)
     return 0
 
 
