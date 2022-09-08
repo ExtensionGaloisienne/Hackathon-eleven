@@ -96,10 +96,10 @@ def extract_people(picture_data):
 
 
 def compute_center(a, b):
-    return abs(b[0]-a[0]), abs(b[1]-a[1])
+    return np.array([(a[0]+b[0]) // 2, (a[1]+b[1]) // 2])
 
 
-def compute_people_list(people_list):
+def get_boxes_from_people_list(people_list):
     return np.array([guy['points']['exterior'] for guy in people_list], dtype=np.int64)
 
 
@@ -109,12 +109,21 @@ def main():
     people_by_chantier = [[] for i in range(5)]
     for i in range(5):
         for picture_data in data_by_chantier[i]:
-            people_by_chantier[i].append(extract_people(picture_data))
+            people_in_picture = extract_people(picture_data)
+            if len(people_in_picture) > 0:
+                people_by_chantier[i].append(people_in_picture)
     # display_people_density(people_by_chantier)
-    for chantier in people_by_chantier:
-        for picture_data in chantier:
-            print(compute_people_list(picture_data))
-
+    for i in range(5):
+        plt.figure()
+        plt.title(NAMES[i])
+        for people_list in people_by_chantier[i]:
+            people_boxes = get_boxes_from_people_list(people_list)
+            box_count = len(people_boxes)
+            centers = np.zeros((box_count, 2), dtype=np.int64)
+            for j in range(box_count):
+                centers[j] = compute_center(people_boxes[j][0], people_boxes[j][1])
+            plt.plot(centers[:, 0], centers[:, 1], 'bs')
+        plt.show()
     return 0
 
 
