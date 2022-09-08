@@ -3,11 +3,19 @@
 import os
 import random
 import json
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 # Choix d'un fichier aléatoire
 def choose_random_file(directory):
     return random.choice(os.listdir(directory))
+
+
+def show_json_data(json_list):
+    for x in json_list:
+        print(x)
 
 
 # Choix d'un fichier json aléatoire
@@ -19,18 +27,55 @@ def get_all_json_paths(directory):
     return [os.path.join(directory, json_file) for json_file in os.listdir(directory)]
 
 
+def filter_by_chantier(json_files, name):
+    return [x for x in json_files if name in x]
 def heatmap():
     random.seed()
-    directory = "C:\\Users\\Léonard\\Downloads\\data\\Detection_Test_Set\\Detection_Test_Set_Json"
+    directory = r'C:\Users\Léonard\Downloads\data\Detection_Train_Set\Detection_Train_Set_Json'
     json_files = get_all_json_paths(directory)
-    json_data_list = []
-    for json_file in json_files:
-        with open(json_file) as f:
-            try:
-                json_data = json.load(f)
-                json_data_list.append(json_data)
-            except json.JSONDecodeError:
-                print("Couldn't decode file {}".format(json_file))
+    devisubox_files = filter_by_chantier(json_files, "Devisubox")
+    marseille_files = filter_by_chantier(json_files, "Marseille")
+    biosav_files = filter_by_chantier(json_files, "BioSAV")
+    nouveaucampus_files = filter_by_chantier(json_files, "Nouveau")
+    roissy_files = filter_by_chantier(json_files, "Roissy")
+    print("Total: {}, BioSAV: {}, Devisubox: {}, Marseille: {}\
+, Nouveau Campus: {}, Roissy: {}".format(len(json_files),
+                                             len(biosav_files),
+                                             len(devisubox_files),
+                                             len(marseille_files),
+                                             len(nouveaucampus_files),
+                                             len(roissy_files)))
+    chantiers = [devisubox_files, marseille_files, biosav_files, nouveaucampus_files, roissy_files]
+    data_by_chantier = [[] for x in chantiers]
+    for i in range(len(chantiers)):
+        for json_file in chantiers[i]:
+            with open(json_file) as f:
+                try:
+                    json_data = json.load(f)
+                    data_by_chantier[i].append(json_data)
+                except json.JSONDecodeError:
+                    print("Couldn't decode file {}".format(json_file))
+    return data_by_chantier
+
+
+def display_objects_density(data_by_chantier):
+    names = ["BioSAV", "Devisubox", "Marseille", "Nouveau Campus", "Roissy"]
+    objects_density = [[0 for i in range(60)] for i in range(5)]
+    plt.figure(figsize=(10, 2))
+    for i in range(5):
+        for picture_data in data_by_chantier[i]:
+            objects_density[i][len(picture_data["objects"])] += 1
+        plt.subplot(1, 5, i + 1)
+        plt.bar(np.arange(len(objects_density[i])), objects_density[i])
+        plt.grid(True)
+        plt.title(names[i])
+    plt.show()
+
+def main():
+    data_by_chantier = heatmap()
+    display_objects_density(data_by_chantier)
     return 0
 
-heatmap()
+
+if __name__ == "__main__":
+    main()
