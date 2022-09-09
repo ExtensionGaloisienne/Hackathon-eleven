@@ -36,8 +36,8 @@ def filter_by_chantier(json_files, name):
     return [x for x in json_files if name in x]
 def heatmap():
     random.seed()
-    #directory = r'C:\Users\Léonard\Downloads\data\Detection_Train_Set\Detection_Train_Set_Json'
-    directory = r'C:\Users\dimit\hackathon\Hackathon-eleven\Datasets\Detection_Train_Set\Detection_Train_Set_Json'
+    directory = r'C:\Users\Léonard\Downloads\data\Detection_Train_Set\Detection_Train_Set_Json'
+    # directory = r'C:\Users\dimit\hackathon\Hackathon-eleven\Datasets\Detection_Train_Set\Detection_Train_Set_Json'
     json_files = get_all_json_paths(directory)
     devisubox_files = filter_by_chantier(json_files, "Devisubox")
     marseille_files = filter_by_chantier(json_files, "Marseille")
@@ -99,6 +99,7 @@ def extract_people(picture_data):
 def compute_center(a, b):
     return np.array([(a[0]+b[0]) // 2, (a[1]+b[1]) // 2])
 
+
 def compute_radius(a, b):
     return np.mean([abs(b[0]-a[0]) / 2, abs(b[1]-a[1]) / 2])
 
@@ -131,8 +132,8 @@ def main():
             centers[j] = compute_center(all_the_people[j][0], all_the_people[j][1])
             radii[j] = compute_radius(all_the_people[j][0], all_the_people[j][1])
         limits = [[0, SIZES[i][0]], [0, SIZES[i][1]]]
-        plt.hist2d(centers[:, 0], centers[:, 1], bins=50, weights=radii,
-                   range=limits, cmap='Blues')
+        plt.hist2d(centers[:, 0], centers[:, 1], bins=75, density=True, weights=radii, alpha=0.9,
+                   range=limits, cmap='plasma')
         plt.show()
     return 0
 
