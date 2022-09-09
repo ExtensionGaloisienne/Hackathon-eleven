@@ -132,7 +132,7 @@ def main():
             centers[j] = compute_center(all_the_people[j][0], all_the_people[j][1])
             radii[j] = compute_radius(all_the_people[j][0], all_the_people[j][1])
         limits = [[0, SIZES[i][0]], [0, SIZES[i][1]]]
-        plt.hist2d(centers[:, 0], centers[:, 1], bins=75, density=True, weights=radii, alpha=0.9,
+        plt.hist2d(centers[:, 0], [SIZES[i][1] - y for y in centers[:, 1]], bins=75, density=True, weights=radii, alpha=0.99,
                    range=limits, cmap='plasma')
         plt.show()
     return 0
